@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Video Generator</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        background: #050505;
+        color: white;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .container {
+        width: 900px;
+        max-width: 95%;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 42px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #aaa;
+    }
+
+    .video {
+        height: 500px;
+        margin-top: 25px;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        background:
+            radial-gradient(circle at 30% 40%, #4c00ff, transparent 30%),
+            radial-gradient(circle at 70% 60%, #00c8ff, transparent 30%),
+            linear-gradient(135deg, #050505, #151515);
+        animation: backgroundMove 8s infinite alternate;
+    }
+
+    @keyframes backgroundMove {
+        from {
+            background-position: 0% 50%;
+            transform: scale(1);
+        }
+
+        to {
+            background-position: 100% 50%;
+            transform: scale(1.02);
+        }
+    }
+
+    .content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 30px;
+        background: rgba(0,0,0,0.25);
+    }
+
+    #scene {
+        font-size: 45px;
+        font-weight: bold;
+        max-width: 750px;
+        animation: textAnimation 3s ease-in-out;
+    }
+
+    @keyframes textAnimation {
+        0% {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .controls {
+        margin-top: 25px;
+    }
+
+    button {
+        padding: 14px 25px;
+        border: none;
+        border-radius: 10px;
+        background: #6c35ff;
+        color: white;
+        font-size: 17px;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    button:hover {
+        background: #8a5cff;
+    }
+
+    input {
+        width: 70%;
+        padding: 15px;
+        border-radius: 10px;
+        border: none;
+        margin-top: 20px;
+        font-size: 16px;
+    }
+
+    #status {
+        margin-top: 15px;
+        color: #aaa;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🤖 AI Video Generator</h1>
+
+    <p>Enter your idea and generate an AI-style animated video.</p>
+
+    <input
+        id="prompt"
+        type="text"
+        placeholder="Example: The future of artificial intelligence"
+    >
+
+    <div class="video">
+
+        <div class="content">
+
+            <div id="scene">
+                AI VIDEO
+            </div>
+
+            <p id="subtitle">
+                Create something amazing
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="controls">
+
+        <button onclick="generateVideo()">
+            ✨ Generate Video
+        </button>
+
+        <button onclick="startVideo()">
+            ▶ Play
+        </button>
+
+        <button onclick="stopVideo()">
+            ⏹ Stop
+        </button>
+
+    </div>
+
+    <div id="status">
+        Ready
+    </div>
+
+</div>
+
+<script>
+
+const scenes = [
+    "Welcome to the future",
+    "Artificial Intelligence",
+    "Create amazing ideas",
+    "AI can transform the world",
+    "The future starts now"
+];
+
+let currentScene = 0;
+let timer = null;
+
+function generateVideo() {
+
+    const prompt = document.getElementById("prompt").value;
+
+    if (prompt.trim() !== "") {
+        scenes[0] = prompt;
+    }
+
+    currentScene = 0;
+
+    document.getElementById("status").innerText =
+        "✨ AI video generated!";
+
+    showScene();
+}
+
+function showScene() {
+
+    const scene = document.getElementById("scene");
+    const subtitle = document.getElementById("subtitle");
+
+    scene.style.animation = "none";
+
+    void scene.offsetWidth;
+
+    scene.style.animation = "textAnimation 3s ease-in-out";
+
+    scene.innerText = scenes[currentScene];
+
+    subtitle.innerText =
+        "Scene " + (currentScene + 1) +
+        " • AI Generated";
+
+    currentScene++;
+
+    if (currentScene >= scenes.length) {
+        currentScene = 0;
+    }
+}
+
+function startVideo() {
+
+    if (timer) return;
+
+    document.getElementById("status").innerText =
+        "▶ Playing AI video...";
+
+    showScene();
+
+    timer = setInterval(() => {
+        showScene();
+    }, 4000);
+}
+
+function stopVideo() {
+
+    clearInterval(timer);
+
+    timer = null;
+
+    document.getElementById("status").innerText =
+        "⏹ Video stopped";
+}
+
+</script>
+
+</body>
+</html>
